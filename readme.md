@@ -298,3 +298,7 @@ func testPageNumberMode(t *testing.T) {
 }
 
 ```
+
+## License
+
+Released under the [MIT License](License)
