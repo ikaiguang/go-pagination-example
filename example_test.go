@@ -1,8 +1,8 @@
 package example
 
 import (
-	"testing"
 	page "github.com/ikaiguang/go-pagination"
+	"testing"
 )
 
 // generate test data

@@ -1,10 +1,10 @@
 package example
 
 import (
-	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"github.com/jinzhu/gorm"
 	"fmt"
 	page "github.com/ikaiguang/go-pagination"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
 // new db connection
