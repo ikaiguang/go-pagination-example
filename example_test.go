@@ -9,11 +9,11 @@ import (
 func TestGenerateTestData(t *testing.T) {
 	return // continue
 
-	err := GenerateTestData()
-	if err != nil {
-		t.Errorf("testing : GenerateTestData error : %v", err)
-		return
-	}
+	//err := GenerateTestData()
+	//if err != nil {
+	//	t.Errorf("testing : GenerateTestData error : %v", err)
+	//	return
+	//}
 }
 
 // controller list
