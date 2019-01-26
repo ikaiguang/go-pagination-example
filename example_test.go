@@ -33,7 +33,7 @@ func TestUserController_List(t *testing.T) {
 func testCursorModeDesc(t *testing.T) {
 
 	var controller UserController       // controller
-	var list *[]UserModel               // list
+	var list []*UserModel               // list
 	var pagingResult *page.PagingResult // page result
 	var err error                       // error
 	var cursorOption *page.PagingOption // option
@@ -105,7 +105,7 @@ func testCursorModeDesc(t *testing.T) {
 func testCursorModeAsc(t *testing.T) {
 
 	var controller UserController       // controller
-	var list *[]UserModel               // list
+	var list []*UserModel               // list
 	var pagingResult *page.PagingResult // page result
 	var err error                       // error
 	var cursorOption *page.PagingOption // option
@@ -177,7 +177,7 @@ func testCursorModeAsc(t *testing.T) {
 func testPageNumberMode(t *testing.T) {
 
 	var controller UserController           // controller
-	var list *[]UserModel                   // list
+	var list []*UserModel                   // list
 	var pagingResult *page.PagingResult     // page result
 	var err error                           // error
 	var pageNumberOption *page.PagingOption // option

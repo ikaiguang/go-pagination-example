@@ -81,15 +81,15 @@ func (m *UserModel) NewModel() *UserModel {
 }
 
 // user model list
-func (m *UserModel) List(whereConditions []*WhereCondition, pagingOptionCollection *page.PagingOptionCollection) (*[]UserModel, int64, error) {
+func (m *UserModel) List(whereConditions []*WhereCondition, pagingOptionCollection *page.PagingOptionCollection) ([]*UserModel, int64, error) {
 	var count int64
-	var list []UserModel
+	var res []*UserModel
 
 	// db conn
 	db, err := newDbConnection()
 	if err != nil {
 		err = fmt.Errorf("UserModel.List newDbConnection error : %v", err)
-		return &list, count, err
+		return res, count, err
 	}
 	defer db.Close()
 
@@ -99,15 +99,15 @@ func (m *UserModel) List(whereConditions []*WhereCondition, pagingOptionCollecti
 
 	if err := userDb.Table(m.TableName()).Count(&count).Error; err != nil {
 		err = fmt.Errorf("UserModel.List Count error : %v", err)
-		return &list, count, err
+		return res, count, err
 	} else if count == 0 {
-		return &list, count, err // empty
+		return res, count, err // empty
 	}
 
 	// pagination
-	if err := Pagination(userDb, pagingOptionCollection).Find(&list).Error; err != nil {
+	if err := Pagination(userDb, pagingOptionCollection).Find(&res).Error; err != nil {
 		err = fmt.Errorf("UserModel.List Find error : %v", err)
-		return &list, count, err
+		return res, count, err
 	}
-	return &list, count, err
+	return res, count, err
 }
