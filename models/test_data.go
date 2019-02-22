@@ -1,8 +1,8 @@
-package example
+package models
 
 import "fmt"
 
-// generate test data
+// GenerateTestData generate test data
 func GenerateTestData() error {
 	tableSql := `
 CREATE TABLE pagination_users (
@@ -40,13 +40,13 @@ VALUES
 
 	// create table
 	if err := db.Exec(tableSql).Error; err != nil {
-		err = fmt.Errorf("db.Exec(tableSql) error : %v", err)
+		err = fmt.Errorf("dbPool.Exec(tableSql) error : %v", err)
 		return err
 	}
 
 	// insert test data
 	if err := db.Exec(dataSql).Error; err != nil {
-		err = fmt.Errorf("db.Exec(dataSql) error : %v", err)
+		err = fmt.Errorf("dbPool.Exec(dataSql) error : %v", err)
 		return err
 	}
 

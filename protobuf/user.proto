@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package protobuf;
+
+import "github.com/ikaiguang/go-pagination/pagination.proto";
+
+option go_package = "protobuf";
+
+/**
+ *
+ * @apiDefine User User
+ *
+ * @apiSuccess (User) {Int64} Id 用户id
+ * @apiSuccess (User) {String} Name 姓名
+ * @apiSuccess (User) {Int64} Age 年龄
+ *
+ */
+
+// User : 用户
+message User {
+    int64 Id = 1; // 用户id
+    string Name = 2; // 姓名
+    int64 Age = 3; // 年龄
+}
+
+/**
+ *
+ * @apiDefine UserListReq UserListReq
+ *
+ * @apiParam (UserListReq) {Int32} ActionUserID 操作用户id
+ * @apiParam (UserListReq) {Int32} UserID 用户id
+ *
+ * @apiParam (UserListReq) {pagination.PagingOption} PagingOption 分页选项
+ *
+ */
+
+// UserListReq : list
+message UserListReq {
+    int64 ActionUserID = 1; // 操作用户id
+    int64 UserID = 2; // 用户id
+
+    pagination.PagingOption PagingOption = 1000; // 分页选项
+}
+
+/**
+ *
+ * @apiDefine UserListResp UserListResp
+ *
+ * @apiSuccess (UserListResp) {User-Array} Data User-Array
+ *
+ * @apiSuccess (UserListResp) {pagination.PagingResult} PagingResult 分页结果
+ *
+ */
+
+// UserListResp : list
+message UserListResp {
+    repeated User Data = 1; // User-Array
+
+    pagination.PagingResult PagingResult = 1000; // 分页结果
+}
+
+// KgUser : User service
+service KgUser {
+
+    /**
+     *
+     * @api {Post} /User/List List
+     *
+     * @apiGroup User
+     *
+     * @apiName UserList
+     *
+     * @apiUse UserListReq
+     *
+     * @apiUse PagingOption
+     *
+     * @apiUse PagingOrder
+     *
+     * @apiUse UserListResp
+     *
+     * @apiUse User
+     *
+     * @apiUse PagingResult
+     *
+     */
+
+    // List : list
+    rpc List (UserListReq) returns (UserListResp) {
+    }
+}

@@ -1,7 +1,9 @@
 package example
 
 import (
-	page "github.com/ikaiguang/go-pagination"
+	"github.com/ikaiguang/go-pagination"
+	"github.com/ikaiguang/go-pagination-example/controllers"
+	pb "github.com/ikaiguang/go-pagination-example/protobuf"
 	"testing"
 )
 
@@ -9,9 +11,9 @@ import (
 func TestGenerateTestData(t *testing.T) {
 	return // continue
 
-	//err := GenerateTestData()
+	//err := models.GenerateTestData()
 	//if err != nil {
-	//	t.Errorf("testing : GenerateTestData error : %v", err)
+	//	t.Errorf("testing : models.GenerateTestData error : %v", err)
 	//	return
 	//}
 }
@@ -32,23 +34,28 @@ func TestUserController_List(t *testing.T) {
 // paging mode : cursor mode && desc(order by id desc)
 func testCursorModeDesc(t *testing.T) {
 
-	var controller UserController       // controller
-	var list []*UserModel               // list
-	var pagingResult *page.PagingResult // page result
-	var err error                       // error
-	var cursorOption *page.PagingOption // option
+	var controller controllers.UserController // controller
+	var req *pb.UserListReq                   // list req
+	var resp *pb.UserListResp                 // list resp
+	var err error                             // error
+	var cursorOption *pagination.PagingOption // option
+
+	// init cursor option
+	cursorOption = pagination.DefaultPagingOption()
+
+	// init req
+	req = &pb.UserListReq{ActionUserID: 1, PagingOption: cursorOption}
 
 	// ===== paging mode : cursor : order by id desc ===== //
 	// ===== goto 3rd page ===== //
 	// cursor option
-	cursorOption = page.DefaultPagingOption()
-	cursorOption.PagingMode = page.PagingModeCursor // cursor mode
-	cursorOption.PageSize = 2                       // page size : 2
-	cursorOption.GotoPageNumber = 3                 // goto 3th page
-	cursorOption.CursorColumn = "id"                // order by id desc
-	cursorOption.CursorDirection = "desc"           // order by id desc
+	cursorOption.PagingMode = pagination.PagingModeCursor // cursor mode
+	cursorOption.PageSize = 2                             // page size : 2
+	cursorOption.GotoPageNumber = 3                       // goto 3th page
+	cursorOption.CursorColumn = "id"                      // order by id desc
+	cursorOption.CursorDirection = "desc"                 // order by id desc
 
-	list, pagingResult, err = controller.List(cursorOption)
+	resp, err = controller.List(req)
 	if err != nil {
 		t.Errorf("testing : controller.List error : %v", err)
 		return
@@ -57,7 +64,7 @@ func testCursorModeDesc(t *testing.T) {
 		format += "\n paging result : %v \n"
 		format += "\n list : %v \n"
 
-		t.Logf(format, pagingResult, list)
+		t.Logf(format, resp.PagingResult, resp.Data)
 	}
 
 	// ===== paging mode : cursor : order by id desc ===== //
@@ -66,9 +73,9 @@ func testCursorModeDesc(t *testing.T) {
 	// cursor option
 	cursorOption.CurrentPageNumber = cursorOption.GotoPageNumber // current page number
 	cursorOption.GotoPageNumber = 1                              // goto 1st page
-	cursorOption.CursorValue = pagingResult.CursorValue          // cursor value
+	cursorOption.CursorValue = resp.PagingResult.CursorValue     // cursor value
 
-	list, pagingResult, err = controller.List(cursorOption)
+	resp, err = controller.List(req)
 	if err != nil {
 		t.Errorf("testing : controller.List error : %v", err)
 		return
@@ -77,7 +84,7 @@ func testCursorModeDesc(t *testing.T) {
 		format += "\n paging result : %v \n"
 		format += "\n list : %v \n"
 
-		t.Logf(format, pagingResult, list)
+		t.Logf(format, resp.PagingResult, resp.Data)
 	}
 
 	// ===== paging mode : cursor : order by id desc ===== //
@@ -86,9 +93,9 @@ func testCursorModeDesc(t *testing.T) {
 	// cursor option
 	cursorOption.CurrentPageNumber = cursorOption.GotoPageNumber // current page number
 	cursorOption.GotoPageNumber = 5                              // goto 5th page
-	cursorOption.CursorValue = pagingResult.CursorValue          // cursor value
+	cursorOption.CursorValue = resp.PagingResult.CursorValue     // cursor value
 
-	list, pagingResult, err = controller.List(cursorOption)
+	resp, err = controller.List(req)
 	if err != nil {
 		t.Errorf("testing : controller.List error : %v", err)
 		return
@@ -97,30 +104,36 @@ func testCursorModeDesc(t *testing.T) {
 		format += "\n paging result : %v \n"
 		format += "\n list : %v \n"
 
-		t.Logf(format, pagingResult, list)
+		t.Logf(format, resp.PagingResult, resp.Data)
 	}
 }
 
 // paging mode : cursor mode && asc(order by id asc)
 func testCursorModeAsc(t *testing.T) {
 
-	var controller UserController       // controller
-	var list []*UserModel               // list
-	var pagingResult *page.PagingResult // page result
-	var err error                       // error
-	var cursorOption *page.PagingOption // option
+	var controller controllers.UserController // controller
+	var req *pb.UserListReq                   // list req
+	var resp *pb.UserListResp                 // list resp
+	var err error                             // error
+	var cursorOption *pagination.PagingOption // option
+
+	// init cursor option
+	cursorOption = pagination.DefaultPagingOption()
+
+	// init req
+	req = &pb.UserListReq{ActionUserID: 1, PagingOption: cursorOption}
 
 	// ===== paging mode : cursor : order by id asc ===== //
 	// ===== goto 3rd page ===== //
 	// cursor option
-	cursorOption = page.DefaultPagingOption()
-	cursorOption.PagingMode = page.PagingModeCursor // cursor mode
-	cursorOption.PageSize = 2                       // page size : 2
-	cursorOption.GotoPageNumber = 3                 // goto 3th page
-	cursorOption.CursorColumn = "id"                // order by id asc
-	cursorOption.CursorDirection = "asc"            // order by id asc
+	cursorOption = pagination.DefaultPagingOption()
+	cursorOption.PagingMode = pagination.PagingModeCursor // cursor mode
+	cursorOption.PageSize = 2                             // page size : 2
+	cursorOption.GotoPageNumber = 3                       // goto 3th page
+	cursorOption.CursorColumn = "id"                      // order by id asc
+	cursorOption.CursorDirection = "asc"                  // order by id asc
 
-	list, pagingResult, err = controller.List(cursorOption)
+	resp, err = controller.List(req)
 	if err != nil {
 		t.Errorf("testing : controller.List error : %v", err)
 		return
@@ -129,7 +142,7 @@ func testCursorModeAsc(t *testing.T) {
 		format += "\n paging result : %v \n"
 		format += "\n list : %v \n"
 
-		t.Logf(format, pagingResult, list)
+		t.Logf(format, resp.PagingResult, resp.Data)
 	}
 
 	// ===== paging mode : cursor : order by id asc ===== //
@@ -138,9 +151,9 @@ func testCursorModeAsc(t *testing.T) {
 	// cursor option
 	cursorOption.CurrentPageNumber = cursorOption.GotoPageNumber // current page number
 	cursorOption.GotoPageNumber = 1                              // goto 1st page
-	cursorOption.CursorValue = pagingResult.CursorValue          // cursor value
+	cursorOption.CursorValue = resp.PagingResult.CursorValue     // cursor value
 
-	list, pagingResult, err = controller.List(cursorOption)
+	resp, err = controller.List(req)
 	if err != nil {
 		t.Errorf("testing : controller.List error : %v", err)
 		return
@@ -149,7 +162,7 @@ func testCursorModeAsc(t *testing.T) {
 		format += "\n paging result : %v \n"
 		format += "\n list : %v \n"
 
-		t.Logf(format, pagingResult, list)
+		t.Logf(format, resp.PagingResult, resp.Data)
 	}
 
 	// ===== paging mode : cursor : order by id asc ===== //
@@ -158,9 +171,9 @@ func testCursorModeAsc(t *testing.T) {
 	// cursor option
 	cursorOption.CurrentPageNumber = cursorOption.GotoPageNumber // current page number
 	cursorOption.GotoPageNumber = 5                              // goto 5th page
-	cursorOption.CursorValue = pagingResult.CursorValue          // cursor value
+	cursorOption.CursorValue = resp.PagingResult.CursorValue     // cursor value
 
-	list, pagingResult, err = controller.List(cursorOption)
+	resp, err = controller.List(req)
 	if err != nil {
 		t.Errorf("testing : controller.List error : %v", err)
 		return
@@ -169,29 +182,35 @@ func testCursorModeAsc(t *testing.T) {
 		format += "\n paging result : %v \n"
 		format += "\n list : %v \n"
 
-		t.Logf(format, pagingResult, list)
+		t.Logf(format, resp.PagingResult, resp.Data)
 	}
 }
 
 // paging mode : page number
 func testPageNumberMode(t *testing.T) {
 
-	var controller UserController           // controller
-	var list []*UserModel                   // list
-	var pagingResult *page.PagingResult     // page result
-	var err error                           // error
-	var pageNumberOption *page.PagingOption // option
+	var controller controllers.UserController     // controller
+	var req *pb.UserListReq                       // list req
+	var resp *pb.UserListResp                     // list resp
+	var err error                                 // error
+	var pageNumberOption *pagination.PagingOption // option
+
+	// init page number option
+	pageNumberOption = pagination.DefaultPagingOption()
+
+	// init req
+	req = &pb.UserListReq{ActionUserID: 1, PagingOption: pageNumberOption}
 
 	// ===== paging mode : page number ===== //
 	// ===== goto 3rd page ===== //
 	// page number option
-	pageNumberOption = page.DefaultPagingOption()
+	pageNumberOption = pagination.DefaultPagingOption()
 	pageNumberOption.PageSize = 2                                        // page size : 2
-	orderBy := &page.PagingOrder{Column: "age", Direction: "desc"}       // order by age desc
+	orderBy := &pagination.PagingOrder{Column: "age", Direction: "desc"} // order by age desc
 	pageNumberOption.OrderBy = append(pageNumberOption.OrderBy, orderBy) // order by age desc
 	pageNumberOption.GotoPageNumber = 3                                  // goto 3rd page
 
-	list, pagingResult, err = controller.List(pageNumberOption)
+	resp, err = controller.List(req)
 	if err != nil {
 		t.Errorf("testing : controller.List error : %v", err)
 		return
@@ -200,14 +219,14 @@ func testPageNumberMode(t *testing.T) {
 		format += "\n paging result : %v \n"
 		format += "\n list : %v \n"
 
-		t.Logf(format, pagingResult, list)
+		t.Logf(format, resp.PagingResult, resp.Data)
 	}
 
 	// ===== paging mode : page number ===== //
 	// ===== goto 1st page(preceding page) ===== //
 	pageNumberOption.GotoPageNumber = 1 // goto 1st page(next page)
 
-	list, pagingResult, err = controller.List(pageNumberOption)
+	resp, err = controller.List(req)
 	if err != nil {
 		t.Errorf("testing : controller.List error : %v", err)
 		return
@@ -216,14 +235,14 @@ func testPageNumberMode(t *testing.T) {
 		format += "\n paging result : %v \n"
 		format += "\n list : %v \n"
 
-		t.Logf(format, pagingResult, list)
+		t.Logf(format, resp.PagingResult, resp.Data)
 	}
 
 	// ===== paging mode : page number ===== //
 	// ===== goto 5th page(next page) ===== //
 	pageNumberOption.GotoPageNumber = 5 // goto 5th page(next page)
 
-	list, pagingResult, err = controller.List(pageNumberOption)
+	resp, err = controller.List(req)
 	if err != nil {
 		t.Errorf("testing : controller.List error : %v", err)
 		return
@@ -232,6 +251,6 @@ func testPageNumberMode(t *testing.T) {
 		format += "\n paging result : %v \n"
 		format += "\n list : %v \n"
 
-		t.Logf(format, pagingResult, list)
+		t.Logf(format, resp.PagingResult, resp.Data)
 	}
 }
