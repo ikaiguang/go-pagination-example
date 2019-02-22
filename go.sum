@@ -4,6 +4,8 @@ github.com/golang/protobuf v1.2.0 h1:P3YflyNX/ehuJFLhxviNdFxQPkGK5cDcApsge1SqnvM
 github.com/golang/protobuf v1.2.0/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
 github.com/ikaiguang/go-pagination v0.0.0-20190126081220-ec0916d27621 h1:VHvfFz4BCeoZS1Gyd7Rp4LMYIWgcYEOhwo6428+Bfvg=
 github.com/ikaiguang/go-pagination v0.0.0-20190126081220-ec0916d27621/go.mod h1:WxWQfWoaZWemIesJCjUMhn1VK8cNqiud4rEn46pur1A=
+github.com/ikaiguang/go-pagination v0.0.4 h1:BGcaohdVaxxtdYBYMkGzN0YA6KSLZkTiqAx/GK72s04=
+github.com/ikaiguang/go-pagination v0.0.4/go.mod h1:WxWQfWoaZWemIesJCjUMhn1VK8cNqiud4rEn46pur1A=
 github.com/ikaiguang/go-pagination v1.0.0 h1:cwRacsNYl9kaUb4LE7vpcjAXxQm26Q8GE0lS8midMPM=
 github.com/ikaiguang/go-pagination v1.0.0/go.mod h1:WxWQfWoaZWemIesJCjUMhn1VK8cNqiud4rEn46pur1A=
 github.com/jinzhu/gorm v1.9.1 h1:lDSDtsCt5AGGSKTs8AHlSDbbgif4G4+CKJ8ETBDVHTA=
